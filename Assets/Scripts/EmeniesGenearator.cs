@@ -42,7 +42,7 @@ public class EmeniesGenearator : MonoBehaviour
         Debug.Log($"Start _zEnd {_zEnd}");
 
         GenerateSpawnPoints();
-        GenerateEnemies();
+        StartCoroutine(GenerateEnemies());
     }
 
     private IEnumerator GenerateEnemies()
