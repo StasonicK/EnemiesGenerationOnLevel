@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EmeniesGenearator : MonoBehaviour
+
+public class Spawner : MonoBehaviour
 {
     [SerializeField] private int _count;
-    [SerializeField] private GameObject _enemy;
+    [SerializeField] private Enemy _enemy;
 
+    private const int DigitsAfterDot = 1;
+    private const int Two = 2;
+    
     private float _spawnSpan = 2.0f;
     private MeshRenderer _meshRenderer;
     private MeshRenderer _enemyMeshRenderer;
-
     private float _enemyYPosition;
     private Vector2 _start;
     private Vector2 _end;
@@ -21,11 +24,15 @@ public class EmeniesGenearator : MonoBehaviour
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _enemyMeshRenderer = _enemy.GetComponent<MeshRenderer>();
-        _enemyYPosition = _enemyMeshRenderer.bounds.size.y / 2;
+        _enemyYPosition = _enemyMeshRenderer.bounds.size.y / Two;
         float x = _meshRenderer.bounds.size.x;
         float z = _meshRenderer.bounds.size.z;
-        _start = new Vector2(_meshRenderer.bounds.center.x - x / 2, _meshRenderer.bounds.center.z - z / 2);
-        _end = new Vector2(_meshRenderer.bounds.center.x + x / 2, _meshRenderer.bounds.center.z + z / 2);
+        float minX = _meshRenderer.bounds.center.x - x / Two;
+        float maxX = _meshRenderer.bounds.center.x + x / Two;
+        float minZ = _meshRenderer.bounds.center.z - z / Two;
+        float maxZ = _meshRenderer.bounds.center.z + z / Two;
+        _start = new Vector2(minX, minZ);
+        _end = new Vector2(maxX, maxZ);
 
         // GenerateSpawnPoints();
         StartCoroutine(GenerateEnemies());
@@ -39,8 +46,8 @@ public class EmeniesGenearator : MonoBehaviour
         {
             double x = Random.Range(_start.x, _end.x);
             double z = Random.Range(_start.y, _end.y);
-            x = Math.Round(x, 1);
-            z = Math.Round(z, 1);
+            x = Math.Round(x, DigitsAfterDot);
+            z = Math.Round(z, DigitsAfterDot);
 
             Instantiate(_enemy, new Vector3((float)x, _enemyYPosition, (float)z),
                 Quaternion.identity);
