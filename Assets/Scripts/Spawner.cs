@@ -11,30 +11,29 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Enemy _enemy;
 
     private const int DigitsAfterDot = 1;
-    private const int Two = 2;
-    
+    private const int TwoDelimeter = 2;
+
     private float _spawnSpan = 2.0f;
     private MeshRenderer _meshRenderer;
     private MeshRenderer _enemyMeshRenderer;
     private float _enemyYPosition;
-    private Vector2 _start;
-    private Vector2 _end;
+    private Vector2 _topLeftPoint;
+    private Vector2 _downRightPoint;
 
-    void Start()
+    private void Start()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         _enemyMeshRenderer = _enemy.GetComponent<MeshRenderer>();
-        _enemyYPosition = _enemyMeshRenderer.bounds.size.y / Two;
+        _enemyYPosition = _enemyMeshRenderer.bounds.size.y / TwoDelimeter;
         float x = _meshRenderer.bounds.size.x;
         float z = _meshRenderer.bounds.size.z;
-        float minX = _meshRenderer.bounds.center.x - x / Two;
-        float maxX = _meshRenderer.bounds.center.x + x / Two;
-        float minZ = _meshRenderer.bounds.center.z - z / Two;
-        float maxZ = _meshRenderer.bounds.center.z + z / Two;
-        _start = new Vector2(minX, minZ);
-        _end = new Vector2(maxX, maxZ);
+        float minX = _meshRenderer.bounds.center.x - x / TwoDelimeter;
+        float maxX = _meshRenderer.bounds.center.x + x / TwoDelimeter;
+        float minZ = _meshRenderer.bounds.center.z - z / TwoDelimeter;
+        float maxZ = _meshRenderer.bounds.center.z + z / TwoDelimeter;
+        _topLeftPoint = new Vector2(minX, minZ);
+        _downRightPoint = new Vector2(maxX, maxZ);
 
-        // GenerateSpawnPoints();
         StartCoroutine(GenerateEnemies());
     }
 
@@ -44,8 +43,8 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0; i < _count; i++)
         {
-            double x = Random.Range(_start.x, _end.x);
-            double z = Random.Range(_start.y, _end.y);
+            double x = Random.Range(_topLeftPoint.x, _downRightPoint.x);
+            double z = Random.Range(_topLeftPoint.y, _downRightPoint.y);
             x = Math.Round(x, DigitsAfterDot);
             z = Math.Round(z, DigitsAfterDot);
 
