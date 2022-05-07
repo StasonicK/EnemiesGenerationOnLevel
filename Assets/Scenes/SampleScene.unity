@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8222e8331e478b1429938312c9f82951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _count: 1
+  _count: 10
   _enemy: {fileID: 9171732262924697475, guid: 236a1fe4cbd719f4eafd39ae87d86bee, type: 3}
 --- !u!64 &1448005090
 MeshCollider:
